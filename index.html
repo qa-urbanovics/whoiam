@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Letter Dash — Buddy Runner</title>
+  <link rel="stylesheet" href="./assets/css/styles.css" />
+</head>
+
+<body>
+  <header class="topbar wrap">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">LD</div>
+      <div>
+        <h1>Letter Dash — Buddy Runner</h1>
+        <p class="sub">Hit the shown letter fast. Every 10 correct letters = next level.</p>
+      </div>
+    </div>
+
+    <div class="controls">
+      <!-- Music toggle (can be switched BEFORE Start) -->
+      <button id="musicBtn" class="pill" type="button" aria-pressed="true" title="Music on/off">
+        <span class="icon" aria-hidden="true">🔊</span>
+        <span class="label">Music</span>
+      </button>
+
+      <!-- Theme toggle -->
+      <div class="toggle" aria-label="theme switch">
+        <button id="lightBtn" class="active" type="button">☀️ Light</button>
+        <button id="darkBtn" type="button">🌙 Dark</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap grid">
+    <section class="card left">
+      <div class="row">
+        <input id="name" maxlength="20" placeholder="Your name (for sharing)" />
+        <button class="btn" id="startBtn">Start</button>
+        <button class="btn secondary" id="restartBtn" disabled>Restart</button>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><div class="k">Level</div><div class="v" id="level">1</div></div>
+        <div class="stat"><div class="k">Score</div><div class="v" id="score">0</div></div>
+        <div class="stat"><div class="k">Streak</div><div class="v" id="streak">0</div></div>
+        <div class="stat"><div class="k">Attempts</div><div class="v" id="attempts">6 / 6</div></div>
+      </div>
+
+      <div class="arena">
+        <div class="stage" aria-label="game stage">
+          <div class="lane"></div>
+          <div class="finish"></div>
+
+          <div class="runnerWrap" id="runnerWrap">
+            <div class="runner run" id="runner" style="--x:0px;">
+              <span class="eye left"></span>
+              <span class="eye right"></span>
+              <span class="mouth"></span>
+            </div>
+            <div class="mood" id="mood" style="--x:0px;">Running…</div>
+            <div class="item" id="item" style="--ix:0px;">✨</div>
+          </div>
+        </div>
+
+        <div class="targetCard">
+          <div class="hint">
+            <b>Target:</b> press the letter (A–Z) or tap it below.
+            <div class="tiny">Tip: on mobile, tapping buttons is easiest.</div>
+          </div>
+          <div class="targetBig" id="target">—</div>
+        </div>
+
+        <div class="bar" aria-label="timer"><div id="timerFill"></div></div>
+
+        <div class="pad" id="pad"></div>
+        <div class="log" id="log">Press Start. Play with keyboard or taps.</div>
+
+        <div class="track">
+          <div class="trackTop">
+            <div><b>Progress:</b> <span id="lvlText">Level 1</span> — <span id="lvlNeed">0</span>/10 correct</div>
+            <div class="flag" id="finishFlag">Finish: Level 10</div>
+          </div>
+          <div class="dots" id="dots"></div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="card right">
+      <h2 class="h2">Share your result</h2>
+      <p class="sub">Copy text, share via X/Facebook, or use system Share on mobile (good for Instagram too).</p>
+
+      <textarea id="shareText" placeholder="Your result will appear here…" readonly></textarea>
+
+      <div class="shareRow">
+        <button class="btn secondary" id="copyBtn" disabled>📋 Copy</button>
+        <button class="btn secondary" id="shareBtn" disabled>📲 Share…</button>
+      </div>
+
+      <div class="shareRow">
+        <button class="btn secondary" id="xBtn" disabled>𝕏 X</button>
+        <button class="btn secondary" id="fbBtn" disabled>f Facebook</button>
+      </div>
+
+      <div class="shareRow">
+        <button class="btn secondary" id="igBtn" disabled>📷 Instagram</button>
+        <button class="btn secondary" id="linkBtn" disabled>🔗 Copy link</button>
+      </div>
+
+      <p class="mini">Local best (this device): <b id="best">0</b></p>
+      <p class="mini" id="noteLine"></p>
+    </aside>
+  </main>
+
+  <script type="module" src="./assets/js/app.js"></script>
+</body>
+</html>
