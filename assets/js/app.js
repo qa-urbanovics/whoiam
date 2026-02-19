@@ -5,9 +5,9 @@ const $ = (id) => document.getElementById(id);
 
 const CONFIG = {
   alphabet: "ASDFGHJKLQWERTYUIOPZXCVBNM",
-  startTimeMs: 1200,
-  minTimeMs: 280,
-  timeDecayPerLevel: 0.92,
+  startTimeMs: 1600,
+  minTimeMs: 420,
+  timeDecayPerLevel: 0.95,
 
   padSize: 6,
 
