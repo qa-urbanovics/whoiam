@@ -291,3 +291,80 @@ html[data-theme="dark"] .bar{background:rgba(255,255,255,0.08)}
   .pad{grid-template-columns:repeat(3,minmax(0,1fr))}
   .targetBig{font-size:50px}
 }
+
+/* Footer */
+.footer {
+  margin-top: 30px;
+  padding: 22px 0;
+  border-top: 1px solid var(--border);
+  background: rgba(255,255,255,0.06);
+}
+
+.footer-inner {
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.footer-links a {
+  color: var(--accent);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+/* Mobile: keep Start + Restart on one line, make name smaller */
+@media (max-width: 560px) {
+  .row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  /* name input becomes smaller */
+  .row input {
+    min-width: 0;
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  /* buttons always stay on one row */
+  .row .btn {
+    width: 100%;
+  }
+
+  /* If you want Start + Restart side-by-side */
+  .row .btn,
+  .row .btn.secondary {
+    width: 100%;
+  }
+
+  /* Special: make the buttons container row */
+  .row {
+    grid-template-areas:
+      "name"
+      "buttons";
+  }
+
+  /* Target specific by IDs (safer) */
+  #name { grid-area: name; }
+
+  /* Put buttons into a 2-col grid */
+  #startBtn, #restartBtn {
+    width: 100%;
+  }
+
+  /* Wrap start/restart into a 2-column row via a trick:
+     we’ll turn the parent row into grid and place buttons manually */
+  .row {
+    grid-template-columns: 1fr 1fr;
+  }
+  #name { grid-column: 1 / -1; }       /* name takes full width */
+  #startBtn { grid-column: 1 / 2; }
+  #restartBtn { grid-column: 2 / 3; }
+}

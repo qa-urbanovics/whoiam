@@ -59,7 +59,7 @@ class Game {
     this.shareBtn = $("shareBtn");
     this.xBtn = $("xBtn");
     this.fbBtn = $("fbBtn");
-    this.igBtn = $("igBtn");
+    this.linkedinBtn = $("linkedinBtn");
     this.linkBtn = $("linkBtn");
     this.bestEl = $("best");
     this.noteLine = $("noteLine");
@@ -68,6 +68,7 @@ class Game {
     this.music = new MusicEngine();
 
     // State
+    this.inputLocked = false;
     this.running = false;
     this.level = 1;
     this.score = 0;
@@ -90,6 +91,9 @@ class Game {
     this.initButtons();
     this.updateUI();
     this.log("Press Start. Play with keyboard or taps.");
+
+    const yearEl = document.getElementById("year");
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
   }
 
   initBest() {
@@ -129,7 +133,7 @@ class Game {
     this.shareBtn.addEventListener("click", () => this.systemShare());
     this.xBtn.addEventListener("click", () => this.shareX());
     this.fbBtn.addEventListener("click", () => this.shareFacebook());
-    this.igBtn.addEventListener("click", () => this.shareInstagram());
+    this.linkedinBtn.addEventListener("click", () => this.shareLinkedIn());
     this.linkBtn.addEventListener("click", () => this.copyLink());
 
     // Resize runner positioning
@@ -207,10 +211,16 @@ class Game {
   renderPad(target) {
     this.padEl.innerHTML = "";
     const letters = this.padLetters(target);
+
     for (const c of letters) {
       const b = document.createElement("button");
       b.textContent = c;
-      b.addEventListener("click", () => this.attempt(c));
+
+      b.addEventListener("pointerdown", (e) => {
+        e.preventDefault();
+        this.attempt(c);
+      }, { passive: false });
+
       this.padEl.appendChild(b);
     }
   }
@@ -298,6 +308,7 @@ class Game {
   nextRound() {
     if (!this.running) return;
 
+    this.inputLocked = false;
     this.runnerState("run");
     this.need = this.randLetter(this.need);
     this.targetEl.textContent = this.need;
@@ -335,6 +346,10 @@ class Game {
 
   attempt(letter) {
     if (!this.running) return;
+    if (this.inputLocked) return;
+
+    this.inputLocked = true; 
+    this.cancelTick();       
 
     const pressed = String(letter || "").toUpperCase();
     if (pressed === this.need) {
@@ -461,7 +476,7 @@ class Game {
     this.shareBtn.disabled = !on;
     this.xBtn.disabled = !on;
     this.fbBtn.disabled = !on;
-    this.igBtn.disabled = !on;
+    this.linkedinBtn.disabled = !on;
     this.linkBtn.disabled = !on;
   }
 
@@ -510,15 +525,16 @@ class Game {
     window.open(`https://www.facebook.com/sharer/sharer.php?u=${u}`, "_blank", "noopener,noreferrer");
   }
 
-  async shareInstagram() {
-    // No proper web intent: copy + open instagram
-    try {
-      await navigator.clipboard.writeText(this.shareText.value);
-      this.log("Copied ✅ Now paste it into Instagram (post/story).");
-    } catch {
-      this.log("Couldn’t auto-copy — press Copy first.");
-    }
-    window.open("https://www.instagram.com/", "_blank", "noopener,noreferrer");
+  shareLinkedIn() {
+    const url = encodeURIComponent(location.href);
+    const text = encodeURIComponent(this.shareText.value);
+
+    // LinkedIn share URL
+    window.open(
+      `https://www.linkedin.com/sharing/share-offsite/?url=${url}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
   }
 
   async copyLink() {
