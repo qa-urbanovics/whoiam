@@ -81,7 +81,7 @@ h1{margin:0;font-size:18px}
   backdrop-filter:blur(10px);
 }
 .left{flex:1 1 560px}
-.right{flex:1 1 320px;min-width:280px}
+.right{flex:1 1 320px;min-width:160px}
 
 .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
 input, button, textarea{
@@ -94,7 +94,7 @@ input, button, textarea{
   outline:none;
 }
 input{flex:1;min-width:200px}
-textarea{width:100%;min-height:92px;resize:vertical;margin-top:12px}
+textarea{width:100%;min-height:140px;resize:vertical;margin-top:12px}
 
 .btn{
   cursor:pointer;
@@ -354,10 +354,7 @@ html[data-theme="dark"] .bar{background:rgba(255,255,255,0.08)}
 
 /* Footer */
 .footer {
-  margin-top: 30px;
   padding: 22px 0;
-  border-top: 1px solid var(--border);
-  background: rgba(255,255,255,0.06);
 }
 
 .footer-inner {
@@ -459,6 +456,22 @@ html[data-theme="dark"] .bar{background:rgba(255,255,255,0.08)}
   font-weight: 900;
 }
 
+.modal-close:hover {
+  background: rgba(255,255,255,0.16);
+  border-color: rgba(91,124,250,0.35);
+  transform: translateY(-1px);
+}
+
+.modal-close:active {
+  transform: scale(0.95);
+  background: rgba(255,255,255,0.10);
+}
+
+.modal-close:focus-visible {
+  outline: 2px solid rgba(91,124,250,0.45);
+  outline-offset: 2px;
+}
+
 .modal-head{ display:flex; gap:12px; align-items:center; padding-right: 40px; }
 .modal-badge{
   width: 54px; height: 54px; border-radius: 18px;
@@ -489,7 +502,7 @@ html[data-theme="dark"] .bar{background:rgba(255,255,255,0.08)}
 
 #modalText{
   width:100%;
-  min-height: 92px;
+  min-height: 115px;
   border-radius: 18px;
   border: 1px solid var(--border);
   background: rgba(255,255,255,0.08);
