@@ -32,22 +32,13 @@ body{
 .logo {
   width: 42px;
   height: 42px;
-  border-radius: 14px;
-
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  box-shadow: var(--shadow);
-
   display: grid;
   place-items: center;
-
-  overflow: hidden; /* важно */
 }
 
 .logo img {
-  width: 70%;
-  height: 70%;
-  object-fit: contain;
-  display: block;
+  width: 100%;
+  height: 100%;
 }
 h1{margin:0;font-size:18px}
 .sub{margin:2px 0 0;color:var(--muted);font-size:13px;line-height:1.35}
