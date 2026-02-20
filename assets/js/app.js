@@ -38,6 +38,8 @@ class Game {
     this.scoreEl = $("score");
     this.streakEl = $("streak");
     this.attemptsEl = $("attempts");
+    this.rtLastEl = document.getElementById("rtLast");
+    this.rtAvgEl = document.getElementById("rtAvg");
 
     this.targetEl = $("target");
     this.padEl = $("pad");
@@ -93,6 +95,10 @@ class Game {
     this.streak = 0;
     this.attemptsLeft = CONFIG.attemptsMax;
     this.correctInLevel = 0;
+    this.rtCount = 0;
+    this.rtSum = 0;
+    this.rtLast = null;
+    this.rtBest = null;
 
     this.need = null;
     this.allowedMs = CONFIG.startTimeMs;
@@ -205,6 +211,12 @@ class Game {
     this.lvlNeed.textContent = String(this.correctInLevel);
     this.finishFlag.textContent = `Finish: Level ${CONFIG.maxLevel}`;
 
+    if (this.rtLastEl) this.rtLastEl.textContent = this.rtLast === null ? "—" : `${this.rtLast} ms`;
+    if (this.rtAvgEl) {
+      const avg = this.rtCount ? Math.round(this.rtSum / this.rtCount) : null;
+      this.rtAvgEl.textContent = avg === null ? "—" : `${avg} ms`;
+    }
+
     this.renderDots();
     this.updateRunnerX();
   }
@@ -316,6 +328,10 @@ class Game {
     this.attemptsLeft = CONFIG.attemptsMax;
     this.correctInLevel = 0;
     this.allowedMs = CONFIG.startTimeMs;
+    this.rtCount = 0;
+    this.rtSum = 0;
+    this.rtLast = null;
+    this.rtBest = null;
 
     this.clearShare();
     this.startBtn.disabled = true;
@@ -394,6 +410,11 @@ class Game {
     if (pressed === this.need) {
       const rt = performance.now() - this.roundStart;
 
+      this.rtLast = Math.floor(rt);
+      this.rtSum += rt;
+      this.rtCount += 1;
+      this.rtBest = this.rtBest === null ? this.rtLast : Math.min(this.rtBest, this.rtLast);
+
       const speedBonus = Math.max(0, Math.floor((this.allowedMs - rt) / 10));
       const streakBonus = this.streak * 3;
       const gain = 10 + speedBonus + streakBonus;
@@ -454,6 +475,11 @@ class Game {
     const payload = this.makeSharePayload(finished);
     const text = `${payload.text}\n${payload.url}`;
 
+    const avg = this.rtCount ? Math.round(this.rtSum / this.rtCount) : null;
+
+    this.modalAvgRt.textContent = avg === null ? "—" : `${avg} ms`;
+    this.modalBestRt.textContent = this.rtBest === null ? "—" : `${this.rtBest} ms`;
+
     // Fill modal
     this.modalBadge.textContent = finished ? "🎉" : "🌟";
     this.modalTitle.textContent = finished ? "Congratulations!" : "Nice try!";
@@ -471,7 +497,7 @@ class Game {
 
     this.openModal();
   }
-  
+
   finishGame() {
     this.running = false;
     this.cancelTick();

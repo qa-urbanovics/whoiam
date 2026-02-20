@@ -111,6 +111,66 @@ textarea{width:100%;min-height:92px;resize:vertical;margin-top:12px}
 html[data-theme="dark"] .btn.secondary{color:var(--text)}
 .btn:disabled{opacity:.55;cursor:not-allowed}
 
+/* Button polish */
+.btn, .btn.secondary, .pill, .toggle button, .pad button, .modal-close{
+  transition:
+    transform 120ms ease,
+    filter 120ms ease,
+    background 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.btn:hover:not(:disabled){
+  filter: brightness(1.03);
+  transform: translateY(-1px);
+  box-shadow: 0 14px 24px rgba(0,0,0,0.12);
+}
+.btn:active:not(:disabled){
+  transform: translateY(0px) scale(0.98);
+  filter: brightness(0.98);
+}
+
+.btn.secondary:hover:not(:disabled),
+.pill:hover:not(:disabled){
+  background: rgba(255,255,255,0.14);
+  border-color: rgba(91,124,250,0.25);
+  transform: translateY(-1px);
+}
+.btn.secondary:active:not(:disabled),
+.pill:active:not(:disabled){
+  transform: translateY(0px) scale(0.98);
+}
+
+.pad button:hover:not(:disabled){
+  background: rgba(255,255,255,0.16);
+  border-color: rgba(91,124,250,0.25);
+  transform: translateY(-1px);
+}
+.pad button:active:not(:disabled){
+  transform: translateY(0px) scale(0.98);
+}
+
+/* Accessible focus */
+.btn:focus-visible,
+.btn.secondary:focus-visible,
+.pill:focus-visible,
+.toggle button:focus-visible,
+.pad button:focus-visible,
+.modal-close:focus-visible,
+a:focus-visible{
+  outline: 2px solid rgba(91,124,250,0.45);
+  outline-offset: 2px;
+}
+
+/* Disabled */
+.btn:disabled, .btn.secondary:disabled, .pill:disabled, .pad button:disabled{
+  opacity: .55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
 .stats{
   display:grid;
   grid-template-columns:repeat(4,minmax(0,1fr));
@@ -457,4 +517,29 @@ html[data-theme="dark"] .bar{background:rgba(255,255,255,0.08)}
   .modal-card{ margin-top: 4vh; }
   .modal-metrics{ grid-template-columns: 1fr; }
   .modal-actions{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+
+/* Stats: 6 tiles layout */
+.stats.stats-6{
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+@media (max-width: 900px){
+  .stats.stats-6{
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 560px){
+  .stats.stats-6{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.modal-metrics{
+  display:grid;
+  grid-template-columns: repeat(5, minmax(0,1fr));
+  gap:10px;
+}
+@media (max-width: 720px){
+  .modal-metrics{ grid-template-columns: repeat(2, minmax(0,1fr)); }
 }
