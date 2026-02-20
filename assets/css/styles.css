@@ -556,3 +556,29 @@ html[data-theme="dark"] .bar{background:rgba(255,255,255,0.08)}
 @media (max-width: 720px){
   .modal-metrics{ grid-template-columns: repeat(2, minmax(0,1fr)); }
 }
+
+.stageMsg{
+  position:absolute;
+  left: 14px;
+  right: 14px;
+  top: 14px;
+  padding: 10px 12px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.86);
+  color: var(--text);
+  font-weight: 900;
+  font-size: 13px;
+  display:none;
+  z-index: 10;
+  box-shadow: var(--shadow);
+}
+html[data-theme="dark"] .stageMsg{
+  background: rgba(15,25,51,0.92);
+}
+
+/* make mood always visible too */
+.mood{
+  z-index: 9;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.18);
+}
