@@ -133,6 +133,47 @@
       <span>© <span id="year"></span></span>
     </div>
   </footer>
+  <!-- Result Modal -->
+  <div class="modal" id="resultModal" aria-hidden="true">
+    <div class="modal-backdrop" data-modal-close></div>
+
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" type="button" aria-label="Close" data-modal-close>✕</button>
+
+      <div class="modal-head">
+        <div class="modal-badge" id="modalBadge">🎉</div>
+        <div>
+          <h2 class="modal-title" id="modalTitle">Great job!</h2>
+          <p class="modal-sub" id="modalSub">You finished the run.</p>
+        </div>
+      </div>
+
+      <div class="modal-result">
+        <div class="modal-metrics">
+          <div class="mm"><span class="mmk">Score</span><span class="mmv" id="modalScore">0</span></div>
+          <div class="mm"><span class="mmk">Level</span><span class="mmv" id="modalLevel">1</span></div>
+          <div class="mm"><span class="mmk">Best</span><span class="mmv" id="modalBest">0</span></div>
+        </div>
+
+        <textarea id="modalText" readonly></textarea>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn" id="modalPlayBtn" type="button">Play again</button>
+        <button class="btn secondary" id="modalCopyBtn" type="button">📋 Copy</button>
+        <button class="btn secondary" id="modalShareBtn" type="button">📲 Share…</button>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn secondary" id="modalXBtn" type="button">𝕏 X</button>
+        <button class="btn secondary" id="modalFbBtn" type="button">f Facebook</button>
+        <button class="btn secondary" id="modalLinkedInBtn" type="button">💼 LinkedIn</button>
+        <button class="btn secondary" id="modalLinkBtn" type="button">🔗 Copy link</button>
+      </div>
+
+      <p class="modal-foot">Tip: sharing shows a preview image via Open Graph tags.</p>
+    </div>
+  </div>
   <script type="module" src="./assets/js/app.js"></script>
 </body>
 </html>

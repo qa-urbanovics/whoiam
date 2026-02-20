@@ -64,6 +64,24 @@ class Game {
     this.bestEl = $("best");
     this.noteLine = $("noteLine");
 
+    // Modal
+    this.resultModal = document.getElementById("resultModal");
+    this.modalBadge = document.getElementById("modalBadge");
+    this.modalTitle = document.getElementById("modalTitle");
+    this.modalSub = document.getElementById("modalSub");
+    this.modalScore = document.getElementById("modalScore");
+    this.modalLevel = document.getElementById("modalLevel");
+    this.modalBest = document.getElementById("modalBest");
+    this.modalText = document.getElementById("modalText");
+
+    this.modalPlayBtn = document.getElementById("modalPlayBtn");
+    this.modalCopyBtn = document.getElementById("modalCopyBtn");
+    this.modalShareBtn = document.getElementById("modalShareBtn");
+    this.modalXBtn = document.getElementById("modalXBtn");
+    this.modalFbBtn = document.getElementById("modalFbBtn");
+    this.modalLinkedInBtn = document.getElementById("modalLinkedInBtn");
+    this.modalLinkBtn = document.getElementById("modalLinkBtn");
+
     // Audio
     this.music = new MusicEngine();
 
@@ -138,6 +156,27 @@ class Game {
 
     // Resize runner positioning
     window.addEventListener("resize", () => this.updateRunnerX());
+
+    // Modal close
+    document.querySelectorAll("[data-modal-close]").forEach((el) => {
+      el.addEventListener("click", () => this.closeModal());
+    });
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") this.closeModal();
+    });
+
+    // Modal actions
+    this.modalPlayBtn.addEventListener("click", () => {
+      this.closeModal();
+      this.startBtn.disabled = false;
+      this.startGame(); // starts a new run
+    });
+    this.modalCopyBtn.addEventListener("click", () => this.copyText(this.modalText.value));
+    this.modalShareBtn.addEventListener("click", () => this.systemShare());
+    this.modalXBtn.addEventListener("click", () => this.shareX());
+    this.modalFbBtn.addEventListener("click", () => this.shareFacebook());
+    this.modalLinkedInBtn.addEventListener("click", () => this.shareLinkedIn());
+    this.modalLinkBtn.addEventListener("click", () => this.copyLink());
   }
 
   loadTheme() {
@@ -408,6 +447,31 @@ class Game {
     }
   }
 
+  showResultModal({ finished }) {
+    const best = Number(localStorage.getItem(CONFIG.bestKey) || "0");
+
+    // Build share text (reuse your existing payload)
+    const payload = this.makeSharePayload(finished);
+    const text = `${payload.text}\n${payload.url}`;
+
+    // Fill modal
+    this.modalBadge.textContent = finished ? "🎉" : "🌟";
+    this.modalTitle.textContent = finished ? "Congratulations!" : "Nice try!";
+    this.modalSub.textContent = finished
+      ? "You finished all levels. Share your score and challenge your friends!"
+      : "Don’t worry — try again and share your result to challenge your friends.";
+
+    this.modalScore.textContent = String(this.score);
+    this.modalLevel.textContent = String(this.level);
+    this.modalBest.textContent = String(best);
+    this.modalText.value = text;
+
+    // Make Play button text contextual
+    this.modalPlayBtn.textContent = finished ? "Play again" : "Try again";
+
+    this.openModal();
+  }
+  
   finishGame() {
     this.running = false;
     this.cancelTick();
@@ -424,6 +488,7 @@ class Game {
 
     this.setShare(true);
     this.saveBest();
+    this.showResultModal({ finished: true });
     this.noteLine.textContent = "Finished! Try again to beat your score 🙂";
   }
 
@@ -441,6 +506,7 @@ class Game {
 
     this.setShare(false);
     this.saveBest();
+    this.showResultModal({ finished: false });
     this.noteLine.textContent = "Game over. Try again 🙂";
   }
 
@@ -536,6 +602,33 @@ class Game {
       "noopener,noreferrer"
     );
   }
+
+  openModal() {
+    if (!this.resultModal) return;
+    this.resultModal.classList.add("open");
+    this.resultModal.setAttribute("aria-hidden", "false");
+  }
+
+  closeModal() {
+    if (!this.resultModal) return;
+    this.resultModal.classList.remove("open");
+    this.resultModal.setAttribute("aria-hidden", "true");
+  }
+
+  async copyText(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      this.log("Copied ✅");
+    } catch {
+      // fallback: try to select modal textarea
+      if (this.modalText) {
+        this.modalText.focus();
+        this.modalText.select();
+      }
+      this.log("Select & copy (Ctrl+C / Cmd+C)");
+    }
+  }
+  
 
   async copyLink() {
     try {
